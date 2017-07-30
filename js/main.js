@@ -114,13 +114,20 @@
 		bodyLoaded = true;
 	}
 
+	var lb = document.getElementById("loading-bar");
 	var loadingBar = function() {
 		if (!assets.finished()) {
-			document.getElementById("loading-bar").style.width = 100 * (assets.loaded / assets.toLoad) + "%";
+
+			lb.style.width = 100 * (assets.loaded / assets.toLoad) + "%";
+			lb.innerText = Math.round(100 * (assets.loaded / assets.toLoad)) + "%";
+
 			console.log("assets not finished loading (" + assets.loaded + "/" + assets.toLoad + ")");
 
 			window.requestAnimationFrame(loadingBar);
 		} else if (bodyLoaded) {
+			assets.music.loop = true;
+			if (sound)
+				assets.music.play();
 			init();
 		} else {
 			window.requestAnimationFrame(loadingBar);

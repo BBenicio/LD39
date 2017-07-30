@@ -74,9 +74,9 @@ function Play() {
 			return;
 		}
 
-		if (this.level.isOver()) {
+		if (this.level.isOver() || (/*DEBUG*/ transition.time > TRANSITION_TIME && keyboard["+"])) {
 			console.log("next level");
-			this.score += Math.round(this.battery.value * 100);
+			this.score += Math.round((this.battery.value * 1000) * (this.level.id + 1));
 
 			var next = createLevel(this.level.id + 1);
 			if (next == null) {
@@ -105,13 +105,13 @@ function Play() {
 		this.level.update(delta);
 
 		if (keyboard["ArrowRight"] && this.level.movePlayer("right")) {
-			this.battery.value -= 0.01;
+			this.battery.value -= 0.022;
 		} else if (keyboard["ArrowLeft"] && this.level.movePlayer("left")) {
-			this.battery.value -= 0.01;
+			this.battery.value -= 0.022;
 		} else if (keyboard["ArrowDown"] && this.level.movePlayer("down")) {
-			this.battery.value -= 0.01;
+			this.battery.value -= 0.022;
 		} else if (keyboard["ArrowUp"] && this.level.movePlayer("up")) {
-			this.battery.value -= 0.01;
+			this.battery.value -= 0.022;
 		}
 
 		if (keyboard["r"]) {

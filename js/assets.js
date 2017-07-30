@@ -18,11 +18,14 @@ var assets = {
 	nextLevelEffect: new Audio("sfx/next_level.wav"),
 	winEffect: new Audio("sfx/win.wav"),
 	loseEffect: new Audio("sfx/lose.wav"),
+	unlockEffect: new Audio("sfx/unlock.wav"),
+
+	music: new Audio("music/ld39.ogg"),
 
 	tut: [],
 
 	loaded: 0,
-	toLoad: 21,
+	toLoad: 23,
 
 	finished: function() {
 		return this.loaded >= this.toLoad;
@@ -32,7 +35,7 @@ var assets = {
 assets.robot.onload = assets.menuBg.onload = assets.overWon.onload = assets.overLost.onload = assets.path.onload =
 	assets.box.onload = assets.boxHint.onload = assets.goal.onload = assets.goalInactive.onload = assets.tileBg.onload =
 	assets.battery.onload = assets.sound.onload = assets.clickEffect.oncanplay = assets.nextLevelEffect.oncanplay =
-	assets.winEffect.oncanplay = assets.loseEffect.oncanplay = function() {
+	assets.winEffect.oncanplay = assets.loseEffect.oncanplay = assets.unlockEffect.oncanplay = assets.music.oncanplay = function() {
 
 	assets.loaded++;
 }

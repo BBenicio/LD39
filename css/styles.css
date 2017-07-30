@@ -31,6 +31,10 @@ body {
 
 	border-bottom: 2px solid white;
 	margin: auto;
+
+	color: #fff;
+	font: 32px monospace;
+	text-align: center;
 }
 
 #screen {

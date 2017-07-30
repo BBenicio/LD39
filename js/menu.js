@@ -1,5 +1,5 @@
 function Menu() {
-	this.nameText = new Text("GAME NAME", "64px monospace");
+	this.nameText = new Text("Plug me in", "64px monospace");
 	this.nameText.x = SCREEN_WIDTH - this.nameText.w - 10;
 
 	var temp = Cookies.get("score");
@@ -21,6 +21,11 @@ function Menu() {
 	this.onkeyup = function(e) {
 		if (e.key === "m") {
 			sound = !sound;
+
+			if (sound)
+				assets.music.play();
+			else
+				assets.music.pause();
 		}
 	};
 
@@ -41,8 +46,12 @@ function Menu() {
 			sound = !sound;
 			Cookies.set("sound", sound, 365);
 
-			if (sound)
+			if (sound) {
 				assets.clickEffect.play();
+				assets.music.play();
+			} else {
+				assets.music.pause();
+			}
 		}
 	};
 
