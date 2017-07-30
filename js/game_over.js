@@ -7,7 +7,7 @@ function GameOver(won, score) {
 	this.again.text.x = SCREEN_WIDTH / 2 - this.again.text.w - 64;
 	this.again.text.y = SCREEN_HEIGHT - 64 - 20;
 
-	this.menu = new Button(new Text("Go To Menu", "48px monospace", "#fff", "center"), "#333", "#eee", "#000", 64);
+	this.menu = new Button(new Text("Go to Menu", "48px monospace", "#fff", "center"), "#333", "#eee", "#000", 64);
 	this.menu.text.x = SCREEN_WIDTH / 2 + 64;
 	this.menu.text.y = SCREEN_HEIGHT - 64 - 20;
 
@@ -24,12 +24,18 @@ function GameOver(won, score) {
 			transition.to = new Play();
 			transition.time = 0;
 			transition.color = "rgba(0, 0, 0, ";
+
+			if (sound)
+				assets.clickEffect.play();
 		}
 		else if (this.menu.over) {
 			transition.from = this;
 			transition.to = new Menu();
 			transition.time = 0;
 			transition.color = "rgba(0, 0, 0, ";
+
+			if (sound)
+				assets.clickEffect.play();
 		}
 	};
 

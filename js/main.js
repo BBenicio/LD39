@@ -1,6 +1,16 @@
+/* TODO
+ *
+ * Puzzles
+ * Music
+ * Balancing
+ * Optmizing (only if there's enough time)
+ */
+
 (function() {
 	var lastTimestamp = 0;
 	var loaded = false;
+
+	sound = Cookies.get("sound") != false.toString(); // I can't believe I'm doing this...
 
 	function init() {
 		canvas = document.getElementById("screen");
@@ -51,6 +61,7 @@
 
 		if (!assets.finished()) {
 			document.getElementById("loading-bar").style.width = 100 * (assets.loaded / assets.toLoad) + "%";
+			console.log("assets not finished loading (" + assets.loaded + "/" + assets.toLoad + ")");
 
 			return;
 		} else if (!loaded) {
@@ -98,5 +109,23 @@
 		}
 	}
 
-	document.body.onload = init;
+	var bodyLoaded = false;
+	document.body.onload = function() {
+		bodyLoaded = true;
+	}
+
+	var loadingBar = function() {
+		if (!assets.finished()) {
+			document.getElementById("loading-bar").style.width = 100 * (assets.loaded / assets.toLoad) + "%";
+			console.log("assets not finished loading (" + assets.loaded + "/" + assets.toLoad + ")");
+
+			window.requestAnimationFrame(loadingBar);
+		} else if (bodyLoaded) {
+			init();
+		} else {
+			window.requestAnimationFrame(loadingBar);
+		}
+	};
+	loadingBar();
+	
 })();

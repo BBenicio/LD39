@@ -15,26 +15,61 @@ function Play() {
 
 	this.paused = false;
 	
-	this.pausedText = new Text("Paused", "32px monospace", "#fff", "center");
+	this.pausedText = new Text("Paused", "48px monospace", "#fff", "center");
 	this.pausedText.x = SCREEN_WIDTH / 2 - this.pausedText.w / 2;
 	this.pausedText.y = SCREEN_HEIGHT / 2;
+
+	this.menuButton = new Button(new Text("Menu", "32px monospace"), "#333", "#eee", "#000", 48);
+	this.menuButton.text.x = SCREEN_WIDTH / 2 - this.menuButton.text.w - 20;
+	this.menuButton.text.y = this.pausedText.y + 48;
+
+	this.continueButton = new Button(new Text("Continue", "32px monospace"), "#333", "#eee", "#000", 48);
+	this.continueButton.text.x = SCREEN_WIDTH / 2 + 20;
+	this.continueButton.text.y = this.pausedText.y + 48;
 
 	this.onkeyup = function(e) {
 		if (e.key === "Escape" || e.key === "p") {
 			this.paused = !this.paused;
+
+			if (sound)
+				assets.clickEffect.play();
+		}
+	};
+
+	this.mouseClick = function(x, y) {
+		if (this.paused) {
+			if (this.menuButton.over) {
+				transition.from = this;
+				transition.to = new Menu();
+				transition.time = 0;
+				transition.color = "rgba(0, 0, 0, ";
+
+				if (sound)
+					assets.clickEffect.play();
+			} else if (this.continueButton.over) {
+				this.paused = !this.paused;
+
+				if (sound)
+					assets.clickEffect.play();
+			}
 		}
 	};
 
 	this.update = function(delta) {
-		if (this.paused) return;
+		if (this.paused) {
+			this.menuButton.update();
+			this.continueButton.update();
+			return;
+		}
 
 		if (this.battery.value <= 0) {
-			//state = new GameOver(false, this.score); // game over (lost)
-
 			transition.from = this;
 			transition.to = new GameOver(false, this.score);
 			transition.time = 0;
 			transition.color = "rgba(0, 0, 0, ";
+
+			if (sound)
+				assets.loseEffect.play();
 			
 			return;
 		}
@@ -45,11 +80,13 @@ function Play() {
 
 			var next = createLevel(this.level.id + 1);
 			if (next == null) {
-				//state = new GameOver(true, this.score); // game over (won)
 				transition.from = this;
 				transition.to = new GameOver(true, this.score);
 				transition.time = 0;
 				transition.color = "rgba(0, 0, 0, ";
+
+				if (sound)
+					assets.winEffect.play();
 				return;
 			}
 
@@ -60,6 +97,9 @@ function Play() {
 			transition.to = this;
 			transition.time = 0;
 			transition.color = "rgba(128, 128, 0, ";
+
+			if (sound)
+				assets.nextLevelEffect.play();
 		}
 
 		this.level.update(delta);
@@ -108,6 +148,8 @@ function Play() {
 			ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 			this.pausedText.draw();
+			this.menuButton.draw();
+			this.continueButton.draw();
 		}
 	};
 }

@@ -12,10 +12,17 @@ var assets = {
 
 	battery: new Image(800, 64),
 
+	sound: new Image(48, 64),
+
+	clickEffect: new Audio("sfx/click.wav"),
+	nextLevelEffect: new Audio("sfx/next_level.wav"),
+	winEffect: new Audio("sfx/win.wav"),
+	loseEffect: new Audio("sfx/lose.wav"),
+
 	tut: [],
 
 	loaded: 0,
-	toLoad: 4,
+	toLoad: 21,
 
 	finished: function() {
 		return this.loaded >= this.toLoad;
@@ -24,7 +31,8 @@ var assets = {
 
 assets.robot.onload = assets.menuBg.onload = assets.overWon.onload = assets.overLost.onload = assets.path.onload =
 	assets.box.onload = assets.boxHint.onload = assets.goal.onload = assets.goalInactive.onload = assets.tileBg.onload =
-	assets.battery.onload = function() {
+	assets.battery.onload = assets.sound.onload = assets.clickEffect.oncanplay = assets.nextLevelEffect.oncanplay =
+	assets.winEffect.oncanplay = assets.loseEffect.oncanplay = function() {
 
 	assets.loaded++;
 }
@@ -41,6 +49,8 @@ assets.goalInactive.src = "img/goal_inactive.png";
 assets.tileBg.src = "img/tile_bg.png";
 
 assets.battery.src = "img/battery.png";
+
+assets.sound.src = "img/sound.png";
 
 for (var i = 0; i < 5; i++) {
 	assets.tut.push(new Image());

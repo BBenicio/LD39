@@ -13,21 +13,41 @@ function Menu() {
 	this.play.text.x = SCREEN_WIDTH / 2 - this.play.text.w / 2;
 	this.play.text.y = SCREEN_HEIGHT / 2;
 
+	this.sound = {
+		x: SCREEN_WIDTH - assets.sound.width - 5,
+		y: SCREEN_HEIGHT - assets.sound.height - 5,
+	}
+
+	this.onkeyup = function(e) {
+		if (e.key === "m") {
+			sound = !sound;
+		}
+	};
+
 	this.mouseClick = function(x, y) {
 		if (this.play.over) {
-			//state = new Play();
-
 			transition.from = this;
 			transition.to = new Play();
 			transition.time = 0;
 			transition.color = "rgba(0, 0, 0, ";
+
+			if (sound)
+				assets.clickEffect.play();
+		}
+
+		if (x >= this.sound.x && x <= this.sound.x + assets.sound.width &&
+			y >= this.sound.y && y <= this.sound.y + assets.sound.height) {
+
+			sound = !sound;
+			Cookies.set("sound", sound, 365);
+
+			if (sound)
+				assets.clickEffect.play();
 		}
 	};
 
 	this.update = function(delta) {
 		if (keyboard[" "] || keyboard["Enter"]) {
-			//state = new Play();
-
 			transition.from = this;
 			transition.to = new Play();
 			transition.time = 0;
@@ -44,5 +64,8 @@ function Menu() {
 		this.highScore.draw();
 
 		this.play.draw();
+
+		ctx.drawImage(assets.sound, sound ? assets.sound.width : 0, 0, assets.sound.width, assets.sound.height,
+			this.sound.x, this.sound.y, assets.sound.width, assets.sound.height);
 	};
 }

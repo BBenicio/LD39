@@ -14,6 +14,8 @@ var transition = {
 	color: "rgba(0, 0, 0, "
 };
 
+var sound = true;
+
 var mouse = {
 	x: 0,
 	y: 0
